@@ -1,16 +1,37 @@
 .app {
-  text-align: center;
+	text-align: center;
 }
 
 .app-header {
-  background-color: #48b6ff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	background-color: #48b6ff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
-.algorithm {
-  background-color: #ffffff;
+.algorithm-description {
+	background-color: #fcfcfc;
+}
+
+.algorithm:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.column {
+	margin: 0;
+	float: left;
+	width: 25%;
+	top: 50%;
+	height: 250px;
+	align-items: center;
+}
+
+.form {
+	background: #0e101c;
+	max-width: 400px;
+	margin: 0 auto;
 }

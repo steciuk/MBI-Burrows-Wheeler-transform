@@ -11,14 +11,13 @@ function App() {
 			<header className="app-header">
 				<h1>Burrow-Wheeler Transform</h1>
 			</header>
-			<div className="algorithm">
+			<div className="algorithm-description">
 				<p>
 					The Burrows–Wheeler transform (BWT, also called block-sorting compression) rearranges a character{' '}
 					<br></br>
 					string into runs of similar characters. This is useful for compression, since it tends to be easy to
 					<br></br>
 					compress a string that has runs of repeated characters by techniques such as move-to-front transform
-					<br></br>
 					and run-length encoding.
 				</p>
 			</div>
@@ -55,25 +54,33 @@ const BwtForm: React.FC = () => {
 	const [sortedRotations, setSortedRotations] = useState<string[]>([]);
 
 	return (
-		<div>
-			<h1>Text: {bwtInput}</h1>
-			<form
-				onSubmit={handleSubmit((data) => {
-					bwtInput = data.bwtInput + '$';
-					const tempRotations = printRotations(bwtInput);
-					setRotations(tempRotations);
-					setSortedRotations(sortRotations(tempRotations));
-				})}
-			>
-				<input defaultValue="banana$" {...register('bwtInput')} />
-				<input type="submit" />
-			</form>
-			<h1>Rotations:</h1>
-			<ArrayPrinter arrayToPrint={rotations}></ArrayPrinter>
-			<h1>Sorted:</h1>
-			<ArrayPrinter arrayToPrint={sortedRotations}></ArrayPrinter>
-			<h1> BWT result:</h1>
-			<BwtResult sortedRotations={sortedRotations}></BwtResult>
+		<div className="algorithm">
+			<div className="column">
+				<h1>Text: {bwtInput}</h1>
+				<form
+					onSubmit={handleSubmit((data) => {
+						bwtInput = data.bwtInput + '$';
+						const tempRotations = printRotations(bwtInput);
+						setRotations(tempRotations);
+						setSortedRotations(sortRotations(tempRotations));
+					})}
+				>
+					<input defaultValue="banana$" {...register('bwtInput')} />
+					<input type="submit" />
+				</form>
+			</div>
+			<div className="column">
+				<h1>Rotations:</h1>
+				<ArrayPrinter arrayToPrint={rotations}></ArrayPrinter>
+			</div>
+			<div className="column">
+				<h1>Sorted:</h1>
+				<ArrayPrinter arrayToPrint={sortedRotations}></ArrayPrinter>
+			</div>
+			<div className="column">
+				<h1> BWT result:</h1>
+				<BwtResult sortedRotations={sortedRotations}></BwtResult>
+			</div>
 		</div>
 	);
 };

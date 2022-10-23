@@ -1,7 +1,9 @@
 export function printRotations(input: string): string[] {
+	if (input == '$') {
+		return [];
+	}
 	const inputLength = input.length;
 	const rotations: string[] = [];
-	console.log(inputLength);
 	for (let i = 0; i < inputLength; i++) {
 		let rotation = '';
 		for (let j = 0; j < inputLength; j++) {

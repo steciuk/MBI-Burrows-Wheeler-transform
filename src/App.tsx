@@ -1,11 +1,9 @@
 import './App.css';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { getBWT, printRotations, sortRotations } from './model/BWT';
-
-const rotations = printRotations('banana$');
-const sortedRotations = sortRotations(rotations);
 
 function App() {
 	return (
@@ -25,13 +23,7 @@ function App() {
 				</p>
 			</div>
 			<div>
-				<h1>Text: banana$</h1>
-				<h1>Rotations:</h1>
-				<ArrayPrinter arrayToPrint={rotations}></ArrayPrinter>
-				<h1>Sorted:</h1>
-				<ArrayPrinter arrayToPrint={sortedRotations}></ArrayPrinter>
-				<h1> BWT result:</h1>
-				<BwtResult sortedRotations={sortedRotations}></BwtResult>
+				<BwtForm></BwtForm>
 			</div>
 		</div>
 	);
@@ -49,6 +41,41 @@ const ArrayPrinter: React.FC<{ arrayToPrint: string[] }> = ({ arrayToPrint }) =>
 
 const BwtResult: React.FC<{ sortedRotations: string[] }> = ({ sortedRotations }) => {
 	return <p>{getBWT(sortedRotations)}</p>;
+};
+
+type Input = {
+	bwtInput: string;
+};
+
+const BwtForm: React.FC = () => {
+	const { register, handleSubmit } = useForm<Input>();
+
+	let bwtInput = '';
+	const [rotations, setRotations] = useState<string[]>([]);
+	const [sortedRotations, setSortedRotations] = useState<string[]>([]);
+
+	return (
+		<div>
+			<h1>Text: {bwtInput}</h1>
+			<form
+				onSubmit={handleSubmit((data) => {
+					bwtInput = data.bwtInput + '$';
+					const tempRotations = printRotations(bwtInput);
+					setRotations(tempRotations);
+					setSortedRotations(sortRotations(tempRotations));
+				})}
+			>
+				<input defaultValue="banana$" {...register('bwtInput')} />
+				<input type="submit" />
+			</form>
+			<h1>Rotations:</h1>
+			<ArrayPrinter arrayToPrint={rotations}></ArrayPrinter>
+			<h1>Sorted:</h1>
+			<ArrayPrinter arrayToPrint={sortedRotations}></ArrayPrinter>
+			<h1> BWT result:</h1>
+			<BwtResult sortedRotations={sortedRotations}></BwtResult>
+		</div>
+	);
 };
 
 export default App;

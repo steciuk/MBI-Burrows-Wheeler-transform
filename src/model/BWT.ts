@@ -1,21 +1,25 @@
-export function printRotations(input: string): string[] {
+export function getRotations(input: string): string[] {
 	if (input == '$') {
 		return [];
 	}
-	const inputLength = input.length;
+
 	const rotations: string[] = [];
-	for (let i = 0; i < inputLength; i++) {
-		let rotation = '';
-		for (let j = 0; j < inputLength; j++) {
-			rotation += input[(i + j) % inputLength];
-		}
-		rotations.push(rotation);
+	const extendedInput = input + input;
+
+	console.log(extendedInput);
+	for (let i = 0; i * 2 < extendedInput.length; i++) {
+		const rot = extendedInput.slice(i, i + input.length);
+		console.log(rot);
+		rotations.push(rot);
 	}
+
 	return rotations;
 }
 
-export function sortRotations(rotations: string[]): string[] {
-	rotations.sort((a, b) => {
+export function getSortedRotations(rotations: string[]): string[] {
+	const result = [...rotations];
+
+	result.sort((a, b) => {
 		if (a < b) {
 			return -1;
 		}
@@ -25,7 +29,7 @@ export function sortRotations(rotations: string[]): string[] {
 		return 0;
 	});
 
-	return rotations;
+	return result;
 }
 
 export function getBWT(sortedRotations: string[]): string {

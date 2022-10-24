@@ -10,28 +10,18 @@
 	justify-content: center;
 	font-size: calc(10px + 2vmin);
 	color: white;
+	padding: 1rem;
 }
+
 .algorithm-description {
 	background-color: #fcfcfc;
-}
-
-.algorithm:after {
-	content: '';
-	display: table;
-	clear: both;
-}
-
-.column {
-	margin: 0;
-	float: left;
-	width: 25%;
-	top: 50%;
-	height: 250px;
-	align-items: center;
-}
-
-.form {
-	background: #0e101c;
-	max-width: 400px;
+	padding: 1rem;
+	max-width: 800px;
 	margin: 0 auto;
+}
+
+.results {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
 }

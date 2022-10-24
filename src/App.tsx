@@ -1,11 +1,17 @@
 import './App.css';
 
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 
-import { getBWT, printRotations, sortRotations } from './model/BWT';
+import InputComponent from './components/InputComponent';
+import ResultsComponent from './components/ResultsComponent';
 
 function App() {
+	const [input, setInput] = useState<string>('');
+
+	const handleInputOnChange = (value: string) => {
+		setInput(value);
+	};
+
 	return (
 		<div className="app">
 			<header className="app-header">
@@ -13,76 +19,16 @@ function App() {
 			</header>
 			<div className="algorithm-description">
 				<p>
-					The Burrows–Wheeler transform (BWT, also called block-sorting compression) rearranges a character{' '}
-					<br></br>
+					The Burrows–Wheeler transform (BWT, also called block-sorting compression) rearranges a character
 					string into runs of similar characters. This is useful for compression, since it tends to be easy to
-					<br></br>
 					compress a string that has runs of repeated characters by techniques such as move-to-front transform
 					and run-length encoding.
 				</p>
 			</div>
-			<div>
-				<BwtForm></BwtForm>
-			</div>
+			<InputComponent value={input} onChange={handleInputOnChange} />
+			<ResultsComponent input={input} />
 		</div>
 	);
 }
-
-const ArrayPrinter: React.FC<{ arrayToPrint: string[] }> = ({ arrayToPrint }) => {
-	return (
-		<ol>
-			{arrayToPrint.map((rot) => (
-				<li key={rot}>{rot}</li>
-			))}
-		</ol>
-	);
-};
-
-const BwtResult: React.FC<{ sortedRotations: string[] }> = ({ sortedRotations }) => {
-	return <p>{getBWT(sortedRotations)}</p>;
-};
-
-type Input = {
-	bwtInput: string;
-};
-
-const BwtForm: React.FC = () => {
-	const { register, handleSubmit } = useForm<Input>();
-
-	let bwtInput = '';
-	const [rotations, setRotations] = useState<string[]>([]);
-	const [sortedRotations, setSortedRotations] = useState<string[]>([]);
-
-	return (
-		<div className="algorithm">
-			<div className="column">
-				<h1>Text: {bwtInput}</h1>
-				<form
-					onSubmit={handleSubmit((data) => {
-						bwtInput = data.bwtInput + '$';
-						const tempRotations = printRotations(bwtInput);
-						setRotations(tempRotations);
-						setSortedRotations(sortRotations(tempRotations));
-					})}
-				>
-					<input defaultValue="banana$" {...register('bwtInput')} />
-					<input type="submit" />
-				</form>
-			</div>
-			<div className="column">
-				<h1>Rotations:</h1>
-				<ArrayPrinter arrayToPrint={rotations}></ArrayPrinter>
-			</div>
-			<div className="column">
-				<h1>Sorted:</h1>
-				<ArrayPrinter arrayToPrint={sortedRotations}></ArrayPrinter>
-			</div>
-			<div className="column">
-				<h1> BWT result:</h1>
-				<BwtResult sortedRotations={sortedRotations}></BwtResult>
-			</div>
-		</div>
-	);
-};
 
 export default App;

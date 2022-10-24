@@ -1,26 +1,27 @@
+import './ResultsComponent.css';
+
 import React from 'react';
 
 import { getBWT, getRotations, getSortedRotations } from '../model/BWT';
-import { ArrayPrinter } from './ArrayPrinterComponent';
+import { Rotation } from '../model/Rotation';
+import BwtComponent from './BwtComponent';
+import RotationsTableComponent from './RotationsTableComponent';
 
 const ResultsComponent = (props: { input: string }) => {
-	const tempRotations = getRotations(`${props.input}$`);
+	const tempRotations: Rotation[] = getRotations(props.input);
 	const sortedRotations = getSortedRotations(tempRotations);
 
 	return (
 		<div className="results">
-			<div>
-				<h1>Rotations:</h1>
-				<ArrayPrinter arrayToPrint={tempRotations}></ArrayPrinter>
+			<div className="tables">
+				<div>
+					<RotationsTableComponent header="Rotations" rotations={tempRotations} />
+				</div>
+				<div className="sorted-rotations">
+					<RotationsTableComponent header="Sorted rotations" rotations={sortedRotations} />
+				</div>
 			</div>
-			<div>
-				<h1>Sorted:</h1>
-				<ArrayPrinter arrayToPrint={sortedRotations}></ArrayPrinter>
-			</div>
-			<div>
-				<h1> BWT result:</h1>
-				<p>{getBWT(sortedRotations)}</p>
-			</div>
+			<BwtComponent result={getBWT(sortedRotations)} />
 		</div>
 	);
 };

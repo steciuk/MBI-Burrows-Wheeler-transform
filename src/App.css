@@ -19,9 +19,3 @@
 	max-width: 800px;
 	margin: 0 auto;
 }
-
-.results {
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-}

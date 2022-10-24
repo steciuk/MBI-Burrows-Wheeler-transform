@@ -1,29 +1,25 @@
-export function getRotations(input: string): string[] {
-	if (input == '$') {
-		return [];
-	}
+import { Rotation } from './Rotation';
 
-	const rotations: string[] = [];
+export function getRotations(input: string): Rotation[] {
+	const rotations: Rotation[] = [];
 	const extendedInput = input + input;
 
-	console.log(extendedInput);
 	for (let i = 0; i * 2 < extendedInput.length; i++) {
 		const rot = extendedInput.slice(i, i + input.length);
-		console.log(rot);
-		rotations.push(rot);
+		rotations.push(new Rotation(i, rot));
 	}
 
 	return rotations;
 }
 
-export function getSortedRotations(rotations: string[]): string[] {
+export function getSortedRotations(rotations: Rotation[]): Rotation[] {
 	const result = [...rotations];
 
 	result.sort((a, b) => {
-		if (a < b) {
+		if (a.text < b.text) {
 			return -1;
 		}
-		if (a > b) {
+		if (a.text > b.text) {
 			return 1;
 		}
 		return 0;
@@ -32,12 +28,16 @@ export function getSortedRotations(rotations: string[]): string[] {
 	return result;
 }
 
-export function getBWT(sortedRotations: string[]): string {
+export function getBWT(sortedRotations: Rotation[]): { bwt: string; index: number | null } {
 	let bwt = '';
-	sortedRotations.forEach((element) => {
-		bwt += element[element.length - 1];
+	let index: number | null = null;
+
+	sortedRotations.forEach((element, i) => {
+		bwt += element.text[element.text.length - 1];
+		if (element.id === 0) index = i;
 	});
-	return bwt;
+
+	return { bwt, index };
 }
 
 // const enum Order {

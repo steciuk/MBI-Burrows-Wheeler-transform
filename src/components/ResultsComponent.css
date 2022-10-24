@@ -1,0 +1,16 @@
+.results {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.tables {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+.sorted-rotations table.rotations td:nth-last-child(1) {
+	background-color: lightcoral;
+}

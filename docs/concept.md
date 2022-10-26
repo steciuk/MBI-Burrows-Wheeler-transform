@@ -37,7 +37,7 @@ TODO: Opisać
    ```
    npm start
    ```
-   uruchom aplikację w trybie deweloperskim. Skrypt automatycznie otworzy domyślną dla systemu przeglądarkę internetową i uruchomi aplikację pod adresem http://localhost:3000/. Zostanie uruchomione nasłuchiwanie na zmiany w kodzie źródłowym i automatyczne odświeżanie treści wyświetlanej strony.
+   uruchom aplikację w trybie deweloperskim. Skrypt automatycznie otworzy domyślną dla systemu przeglądarkę internetową i otworzy aplikację pod adresem http://localhost:3000/. Zostanie rozpoczęte nasłuchiwanie na zmiany w kodzie źródłowym i automatyczne odświeżanie treści wyświetlanej strony.
 
 ### W trybie produkcyjnym
 

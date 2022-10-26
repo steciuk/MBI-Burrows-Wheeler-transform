@@ -1,16 +1,37 @@
 # MBI
 
-## Uruchomienie
+## Uruchomienie aplikacji
+
+### W trybie deweloperskim
 
 1. Zainstaluj [Node.js](https://nodejs.org/)
-2. Otwórz [MBI.code-workspace](MBI.code-workspace)
-3. VS Code w lewym dolnym rogu wyświetli Ci pytanie czy zainstalować polecane rozszerzenia. Kliknij `Tak`
-4. W terminalu uruchom: `npm install`
+2. W głównym folderze projektu (w folderze, w którym znajduje się plik `package.json`) zainstaluj wszystkie wymagane zależności projektu używając polecenia:
 
-### Uruchomienie frontu
+   ```
+   npm install
+   ```
 
-4. W terminalu uruchom `npm start`
-5. Uruchomi Ci się [strona z frontem ](http://localhost:3000/)
+3. Używając polecenia:
+   ```
+   npm start
+   ```
+   uruchom aplikację w trybie deweloperskim. Skrypt automatycznie otworzy domyślną dla systemu przeglądarkę internetową i otworzy aplikację pod adresem http://localhost:3000/. Zostanie rozpoczęte nasłuchiwanie na zmiany w kodzie źródłowym i automatyczne odświeżanie treści wyświetlanej strony.
+
+### W trybie produkcyjnym
+
+1. Zainstaluj [Node.js](https://nodejs.org/)
+2. W głównym folderze projektu (w folderze, w którym znajduje się plik `package.json`) zainstaluj wszystkie wymagane zależności projektu używając polecenia:
+
+   ```
+   npm install
+   ```
+
+3. Używając polecenia:
+   ```
+   npm run build
+   ```
+   zbuduj aplikację. W folderze `./build` znajdą się wszystkie statyczne pliki wymagane do poprawnego działania aplikacji.
+4. Uruchom w przeglądarce internetowej plik `./build/index.html`.
 
 ### Uruchomienie [pliku type-script](src/model/main.ts) w `src/model/main.ts`
 

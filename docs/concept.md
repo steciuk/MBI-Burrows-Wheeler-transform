@@ -2,7 +2,7 @@
 
 ## Cel
 
-Aplikacja taka pozwala zrozumieć działanie algorytmu transformaty Burrowsa-Wheelera i procesu do niej odwrotnego. Użytkownik może wprowadzić własne dane i śledzić (krok po kroku) sposób wykonywania obliczeń. Przykłady aplikacji są dostępne na stronie przedmiotu. Aplikacja powinna wykonywać się na przeglądarce www, będzie umieszczona na serwerze elektron (elka), nie używamy bazy danych, aplikacja jest zbiorem statycznych plików, które wykonują się po stronie klienta w przeglądarce www, sugerowane języki programowania to JavaScript + HTML5.
+Aplikacja taka pozwala zrozumieć działanie algorytmu transformaty Burrowsa-Wheelera i procesu do niej odwrotnego. Użytkownik może wprowadzić własne dane i śledzić (krok po kroku) sposób wykonywania obliczeń. Aplikacja powinna wykonywać się na przeglądarce www, będzie umieszczona na serwerze elektron (elka), nie używamy bazy danych, aplikacja jest zbiorem statycznych plików, które wykonują się po stronie klienta w przeglądarce www, sugerowane języki programowania to JavaScript + HTML5.
 
 ## Założenia dotyczące stosu technologicznego projektu
 

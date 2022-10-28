@@ -54,8 +54,126 @@ Indeks oryginalnego łańcucha w tablicy posortowanych permutacji: `3`
 
 ### Przykładowa implementacja odwrotnej transformaty BWT
 
-Odwrotna transformata Burowsa-Wheelera polega na...
-TODO: który sposób implementacji?
+Najprostsza implementacja odwrotnej transformaty Burrowsa-Wheelera polega na iteracyjnym odtwarzaniu tablicy posortowanych rotacji poprzez "doklejanie" kolumnami "od lewej strony" do siebie otrzymanego z pierwotnej transformaty ciągu i sortowaniu leksykograficznie, po każdorazowym doklejeniu, ciągów powstających w wierszach. Po otrzymaniu tablicy o ilości kolumn równej długości wejściowego ciągu, wynikiem jest ciąg znajdujący się w wierszu o indeksie przekazanym na wejściu.
+
+**Przykład dla ciągu wejściowego: `nnbaaa` i indeksu: `3`**
+
+<table>
+	<tr>
+		<th>Add 1</th>
+		<th>Sort 1</th>
+		<th>Add 2</th>
+		<th>Sort 2</th>
+		<th>Add 3</th>
+		<th>Sort 3</th>
+	</tr>
+<tr><td align="right"><pre>
+n
+n
+b
+a
+a
+a
+</pre></td>
+<td align="right"><pre>
+a
+a
+a
+b
+n
+n
+</pre></td>
+<td align="right"><pre>
+na
+na
+ba
+ab
+an
+an
+</pre></td>
+<td align="right"><pre>
+ab
+an
+an
+ba
+na
+na
+</pre></td>
+<td align="right"><pre>
+nab
+nan
+ban
+aba
+ana
+ana
+</pre></td>
+<td align="right"><pre>
+aba
+ana
+ana
+ban
+nab
+nan
+</pre></td>
+	<tr>
+		<th>Add 4</th>
+		<th>Sort 4</th>
+		<th>Add 5</th>
+		<th>Sort 5</th>
+		<th>Add 6</th>
+		<th>Sort 6</th>
+	</tr>
+<td align="right"><pre>
+naba
+nana
+bana
+aban
+anab
+anan
+</pre></td>
+<td align="right"><pre>
+aban
+anab
+anan
+bana
+naba
+nana
+</pre></td>
+<td align="right"><pre>
+naban
+nanab
+banan
+abana
+anaba
+anana
+</pre></td>
+<td align="right"><pre>
+abana
+anaba
+anana
+banan
+naban
+nanab
+</pre></td>
+<td align="right"><pre>
+nabana
+nanaba
+banana
+abanan
+anaban
+ananab
+</pre></td>
+<td align="right"><pre>
+abanan
+anaban
+ananab
+<span style="color:red">banana</span>
+nabana
+nanaba
+</pre></td>
+</table>
+
+Wynikiem odwrotnej transformaty jest: `banana`
 
 ## Plan rozwiązania
 

@@ -1,15 +1,19 @@
 import './App.css';
+import './TransformScreen.css';
+import './Table.css';
 
 import React, { useState } from 'react';
 
-import InputComponent from './components/InputComponent';
-import ResultsComponent from './components/ResultsComponent';
+import { Box, Tab, Tabs } from '@mui/material';
+
+import AboutBwtRoot from './components/about-bwt/AboutBwtRoot';
+import BwtRoot from './components/bwt/BwtRoot';
 
 function App() {
-	const [input, setInput] = useState<string>('');
+	const [tabIndex, setTabIndex] = useState<number>(0);
 
-	const handleInputOnChange = (value: string) => {
-		setInput(value);
+	const handleTabChange = (newValue: number) => {
+		setTabIndex(newValue);
 	};
 
 	return (
@@ -17,16 +21,25 @@ function App() {
 			<header className="app-header">
 				<h1>Burrow-Wheeler Transform</h1>
 			</header>
-			<div className="algorithm-description">
-				<p>
-					The Burrows–Wheeler transform (BWT, also called block-sorting compression) rearranges a character
-					string into runs of similar characters. This is useful for compression, since it tends to be easy to
-					compress a string that has runs of repeated characters by techniques such as move-to-front transform
-					and run-length encoding.
-				</p>
-			</div>
-			<InputComponent value={input} onChange={handleInputOnChange} />
-			<ResultsComponent input={input} />
+			<Box
+				sx={{
+					borderBottom: 1,
+					borderColor: 'divider',
+					'& button': { padding: '8px', minWidth: '60px', transition: 'background-color .5s' },
+					'& button:hover': { backgroundColor: '#F5F5DC' },
+				}}
+			>
+				<Tabs value={tabIndex} onChange={(_, tabIndex: number) => handleTabChange(tabIndex)} centered>
+					<Tab label="About BWT" />
+					<Tab label="BWT" />
+					<Tab label="Inverse BWT" />
+					<Tab label="Info" />
+				</Tabs>
+			</Box>
+			<main>
+				{tabIndex === 0 && <AboutBwtRoot />}
+				{tabIndex === 1 && <BwtRoot />}
+			</main>
 		</div>
 	);
 }

@@ -1,7 +1,3 @@
-.app {
-	text-align: center;
-}
-
 .app-header {
 	background-color: #48b6ff;
 	display: flex;
@@ -11,11 +7,5 @@
 	font-size: calc(10px + 2vmin);
 	color: white;
 	padding: 1rem;
-}
-
-.algorithm-description {
-	background-color: #fcfcfc;
-	padding: 1rem;
-	max-width: 800px;
-	margin: 0 auto;
+	text-align: center;
 }

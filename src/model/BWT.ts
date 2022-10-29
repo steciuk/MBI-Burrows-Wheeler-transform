@@ -28,9 +28,9 @@ export function getSortedRotations(rotations: Rotation[]): Rotation[] {
 	return result;
 }
 
-export function getBWT(sortedRotations: Rotation[]): { bwt: string; index: number | null } {
+export function getBWT(sortedRotations: Rotation[]): BWTResult {
 	let bwt = '';
-	let index: number | null = null;
+	let index = 0;
 
 	sortedRotations.forEach((element, i) => {
 		bwt += element.text[element.text.length - 1];
@@ -39,6 +39,8 @@ export function getBWT(sortedRotations: Rotation[]): { bwt: string; index: numbe
 
 	return { bwt, index };
 }
+
+export type BWTResult = { bwt: string; index: number };
 
 // const enum Order {
 // 	LT = -1,

@@ -12,6 +12,7 @@ import IBwtRoot from './components/ibwt/IBwtRoot';
 
 function App() {
 	const [tabIndex, setTabIndex] = useState<number>(0);
+	const [bwtResult, setBwtResult] = useState<string>('kurwa');
 
 	const handleTabChange = (newValue: number) => {
 		setTabIndex(newValue);
@@ -39,8 +40,12 @@ function App() {
 			</Box>
 			<main>
 				{tabIndex === 0 && <AboutBwtRoot />}
-				{tabIndex === 1 && <BwtRoot />}
-				{tabIndex === 2 && <IBwtRoot />}
+				{tabIndex === 1 && <BwtRoot onValueChange={(index: number, bwt: string) => {
+					setBwtResult(bwt);
+					handleTabChange(index);
+				}
+				} />}
+				{tabIndex === 2 && <IBwtRoot bwtOutput={bwtResult} bwtOriginalIndex={1} />}
 			</main>
 		</div>
 	);

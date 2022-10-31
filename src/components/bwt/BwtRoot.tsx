@@ -9,7 +9,11 @@ import StepNavigation from '../common/StepNavigation';
 import BwtRotationsTable from './BwtRotationsTable';
 import { CheckCircleRounded } from '@mui/icons-material';
 
-const BwtRoot = () => {
+type TabIndex = { 
+	onValueChange: CallableFunction
+}
+
+const BwtRoot = ({onValueChange}: TabIndex) => {
 	const [bwtInput, setBwtInput] = useState<string>('');
 
 	const [isInStepMode, setIsInStepMode] = useState<boolean>(false);
@@ -47,6 +51,10 @@ const BwtRoot = () => {
 
 	const handleClear = () => {
 		setBwtInput('');
+	};
+
+	const handleInvertBWT = () => {
+		onValueChange(2, bwtOutput);
 	};
 
 	const handleConfirm = () => {
@@ -97,13 +105,12 @@ const BwtRoot = () => {
 					confirm={{ handler: handleConfirm, disabled: bwtInput.length === 0 }}
 					clear={{ handler: handleClear, disabled: bwtInput.length === 0 }}
 				/>
-				{currentStep == steps.length - 1 && (
-					<div>
-						<Button variant="outlined">
-							<p>Invert BWT</p>
-						</Button>
-					</div>
-				)}
+				<div>
+					<Button variant="outlined" disabled={currentStep != steps.length - 1} onClick={() => handleInvertBWT()}>
+						<p>Invert BWT</p>
+					</Button>
+				</div>
+				
 			</div>
 			{isInStepMode && (
 				<StepDisplay

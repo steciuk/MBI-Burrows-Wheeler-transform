@@ -7,10 +7,15 @@ import { getIBWT, getIBWTComponents } from '../../model/IBWT';
 import { IBWTComponents } from '../../model/IBWTComponents';
 import StepDisplay from '../common/StepDisplay';
 
-const IBwtRoot = () => {
+type IBWTInput = {
+    bwtOutput: string,
+    bwtOriginalIndex: number
+}
 
-	const [ibwtInput, setBwtInput] = useState<string>('');
-	const [index, setIndex] = useState<number>();
+const IBwtRoot = ({bwtOutput, bwtOriginalIndex} : IBWTInput) => {
+
+	const [ibwtInput, setBwtInput] = useState<string>(bwtOutput ?? '');
+	const [index, setIndex] = useState<number | undefined>(bwtOriginalIndex ?? undefined);
 
 	const [isInStepMode, setIsInStepMode] = useState<boolean>(false);
 	const [currentStep, setCurrentStep] = useState<number>(0);

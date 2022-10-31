@@ -25,7 +25,7 @@ const StepNavigation = (props: {
 	const { isInStepMode, toStart, back, forward, toEnd, confirm, clear } = props;
 
 	return (
-		<div style={{ display: 'flex', padding: '1rem' }}>
+		<div style={{ display: 'flex', marginLeft: '1rem', marginTop: '.5rem' }}>
 			{isInStepMode && (
 				<>
 					<div style={{ marginRight: '1rem' }}>

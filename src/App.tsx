@@ -9,13 +9,18 @@ import { Box, Tab, Tabs } from '@mui/material';
 import AboutBwtRoot from './components/about-bwt/AboutBwtRoot';
 import BwtRoot from './components/bwt/BwtRoot';
 import IBwtRoot from './components/ibwt/IBwtRoot';
+import { BWTResult } from './model/BWT';
 
 function App() {
 	const [tabIndex, setTabIndex] = useState<number>(0);
-	const [bwtResult, setBwtResult] = useState<string>('kurwa');
+	const [bwtResult, setBwtResult] = useState<BWTResult | null>(null);
 
 	const handleTabChange = (newValue: number) => {
 		setTabIndex(newValue);
+	};
+
+	const handleSetBwtResult = (newValue: BWTResult | null) => {
+		setBwtResult(newValue);
 	};
 
 	return (
@@ -40,12 +45,10 @@ function App() {
 			</Box>
 			<main>
 				{tabIndex === 0 && <AboutBwtRoot />}
-				{tabIndex === 1 && <BwtRoot onValueChange={(index: number, bwt: string) => {
-					setBwtResult(bwt);
-					handleTabChange(index);
-				}
-				} />}
-				{tabIndex === 2 && <IBwtRoot bwtOutput={bwtResult} bwtOriginalIndex={1} />}
+				{tabIndex === 1 && (
+					<BwtRoot handleTabChange={handleTabChange} handleSetBwtResult={handleSetBwtResult} />
+				)}
+				{tabIndex === 2 && <IBwtRoot bwtResult={bwtResult} />}
 			</main>
 		</div>
 	);

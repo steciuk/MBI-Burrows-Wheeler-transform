@@ -7,13 +7,11 @@ import { Rotation } from '../../model/Rotation';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
 import BwtRotationsTable from './BwtRotationsTable';
-import { CheckCircleRounded } from '@mui/icons-material';
 
-type TabIndex = { 
-	onValueChange: CallableFunction
-}
-
-const BwtRoot = ({onValueChange}: TabIndex) => {
+const BwtRoot = (props: {
+	handleTabChange: (tabIndex: number) => void;
+	handleSetBwtResult: (newValue: BWTResult | null) => void;
+}) => {
 	const [bwtInput, setBwtInput] = useState<string>('');
 
 	const [isInStepMode, setIsInStepMode] = useState<boolean>(false);
@@ -54,7 +52,8 @@ const BwtRoot = ({onValueChange}: TabIndex) => {
 	};
 
 	const handleInvertBWT = () => {
-		onValueChange(2, bwtOutput);
+		props.handleSetBwtResult(bwtOutput);
+		props.handleTabChange(2);
 	};
 
 	const handleConfirm = () => {
@@ -88,9 +87,8 @@ const BwtRoot = ({onValueChange}: TabIndex) => {
 	return (
 		<div className="transform-container">
 			<div className="transform-header">
-				<div className="transform-input">
+				<div>
 					<TextField
-						className="transform-input"
 						onChange={(e) => handleInputChange(e.target.value)}
 						value={bwtInput}
 						label="Text to transform"
@@ -106,11 +104,14 @@ const BwtRoot = ({onValueChange}: TabIndex) => {
 					clear={{ handler: handleClear, disabled: bwtInput.length === 0 }}
 				/>
 				<div>
-					<Button variant="outlined" disabled={currentStep != steps.length - 1} onClick={() => handleInvertBWT()}>
+					<Button
+						variant="outlined"
+						disabled={currentStep != steps.length - 1}
+						onClick={() => handleInvertBWT()}
+					>
 						<p>Invert BWT</p>
 					</Button>
 				</div>
-				
 			</div>
 			{isInStepMode && (
 				<StepDisplay

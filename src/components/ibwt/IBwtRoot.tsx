@@ -4,6 +4,7 @@ import { TextField } from '@mui/material';
 
 import { BWTResult } from '../../model/BWT';
 import { getIBWT, getIBWTSteps } from '../../model/IBWT';
+import { isStringAsciiOnly, isStringPositiveInteger } from '../../utils/regexUtils';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
 import IbwtTable from './IbwtTable';
@@ -16,6 +17,7 @@ const IBwtRoot = (props: {
 	const [indexInput, setIndexInput] = useState<string>(props.bwtResult?.index.toString() ?? '');
 
 	const [indexError, setIndexError] = useState<string>('');
+	const [bwtInputError, setBwtInputError] = useState<string>('');
 
 	const [index, setIndex] = useState<number>(0);
 
@@ -86,7 +88,7 @@ const IBwtRoot = (props: {
 	};
 
 	useEffect(() => {
-		if (/^\d+$/.test(indexInput)) {
+		if (isStringPositiveInteger(indexInput)) {
 			const parsedIndex = +indexInput;
 			if (parsedIndex >= ibwtInput.length) {
 				setIndexError('Index must be less than the length of the input');
@@ -99,6 +101,10 @@ const IBwtRoot = (props: {
 		} else {
 			setIndexError('Index must be a positive integer');
 		}
+
+		if (ibwtInput.length > 30) setBwtInputError('Input must be less than 30 characters');
+		else if (!isStringAsciiOnly(ibwtInput)) setBwtInputError('Input must be ASCII only');
+		else setBwtInputError('');
 	}, [indexInput, ibwtInput]);
 
 	useEffect(() => {
@@ -121,6 +127,8 @@ const IBwtRoot = (props: {
 						onChange={(e) => handleInputTextChange(e.target.value)}
 						value={ibwtInput}
 						label="BWT result"
+						error={bwtInputError !== ''}
+						helperText={bwtInputError}
 					/>
 				</div>
 				<TextField
@@ -139,7 +147,8 @@ const IBwtRoot = (props: {
 					toEnd={{ handler: handleToEnd, disabled: currentStep === steps.length - 1 }}
 					confirm={{
 						handler: handleConfirm,
-						disabled: ibwtInput.length === 0 || indexInput.length === 0 || indexError !== '',
+						disabled:
+							ibwtInput.length === 0 || indexInput.length === 0 || indexError !== '' || bwtInputError !== '',
 					}}
 					clear={{
 						handler: handleClear,

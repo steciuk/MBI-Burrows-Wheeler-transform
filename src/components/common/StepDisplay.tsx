@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { padding } from '@mui/system';
+
 const stepDisplayBlockStyles = {
 	flexBasis: 0,
 	border: '1px solid lightgray',
@@ -21,7 +23,9 @@ const StepDisplay = (props: { steps: string[]; currentStep: number; State: JSX.E
 			<div style={{ ...stepDisplayBlockStyles, flexGrow: '2', minWidth: '300px', overflowY: 'auto' }}>
 				<ol style={{ listStylePosition: 'inside' }}>
 					{stepsToDisplay.map((step, index) => (
-						<li key={index}>{step}</li>
+						<li key={index} style={{ backgroundColor: index % 2 !== 0 ? '#e4e4e4' : '', padding: '.1rem' }}>
+							{step}
+						</li>
 					))}
 				</ol>
 			</div>

@@ -4,6 +4,7 @@ import { Button, TextField } from '@mui/material';
 
 import { BWTResult, getBWT, getRotations, getSortedRotations } from '../../model/BWT';
 import { Rotation } from '../../model/Rotation';
+import { isStringAsciiOnly } from '../../utils/regexUtils';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
 import BwtRotationsTable from './BwtRotationsTable';
@@ -13,6 +14,8 @@ const BwtRoot = (props: {
 	handleSetBwtResult: (newValue: BWTResult | null) => void;
 }) => {
 	const [bwtInput, setBwtInput] = useState<string>('');
+
+	const [bwtInputError, setBwtInputError] = useState<string>('');
 
 	const [isInStepMode, setIsInStepMode] = useState<boolean>(false);
 	const [currentStep, setCurrentStep] = useState<number>(0);
@@ -70,9 +73,11 @@ const BwtRoot = (props: {
 
 		const newSteps: string[] = [];
 		newSteps.push('Create table with numer of columns equal to the length of the input string.');
-		newSteps.push('Fill the first row with the input string.');
+		newSteps.push('Fill the 0th row with the input string.');
 		for (let i = 1; i < rotations.length; i++) {
-			newSteps.push(`Fill the ${i + 1} row with the ${i} rotation of input string.`);
+			newSteps.push(
+				`Fill the ${getNumeralString(i)} row with the ${getNumeralString(i)} rotation of input string.`
+			);
 		}
 		newSteps.push('Sort the rows of created table in lexicographical order.');
 		newSteps.push('The last column of the sorted table is the BWT of the input string.');
@@ -84,6 +89,12 @@ const BwtRoot = (props: {
 		setSteps(newSteps);
 	}, [rotations]);
 
+	useEffect(() => {
+		if (bwtInput.length > 30) setBwtInputError('Input must be less than 30 characters');
+		else if (!isStringAsciiOnly(bwtInput)) setBwtInputError('Input must be ASCII only');
+		else setBwtInputError('');
+	}, [bwtInput]);
+
 	return (
 		<div className="transform-container">
 			<div className="transform-header">
@@ -91,6 +102,8 @@ const BwtRoot = (props: {
 					onChange={(e) => handleInputChange(e.target.value)}
 					value={bwtInput}
 					label="Text to transform"
+					error={bwtInputError !== ''}
+					helperText={bwtInputError}
 				/>
 
 				<StepNavigation
@@ -99,7 +112,7 @@ const BwtRoot = (props: {
 					back={{ handler: handleBack, disabled: currentStep === 0 }}
 					forward={{ handler: handleForward, disabled: currentStep === steps.length - 1 }}
 					toEnd={{ handler: handleToEnd, disabled: currentStep === steps.length - 1 }}
-					confirm={{ handler: handleConfirm, disabled: bwtInput.length === 0 }}
+					confirm={{ handler: handleConfirm, disabled: bwtInput.length === 0 || bwtInputError !== '' }}
 					clear={{ handler: handleClear, disabled: bwtInput.length === 0 }}
 				/>
 			</div>
@@ -155,5 +168,24 @@ const BwtRoot = (props: {
 		</div>
 	);
 };
+
+function getNumeralString(num: number): string {
+	if (num >= 11 && num <= 13) {
+		return `${num}th`;
+	}
+
+	const lastDigit = num % 10;
+
+	switch (lastDigit) {
+		case 1:
+			return `${num}st`;
+		case 2:
+			return `${num}nd`;
+		case 3:
+			return `${num}rd`;
+		default:
+			return `${num}th`;
+	}
+}
 
 export default BwtRoot;

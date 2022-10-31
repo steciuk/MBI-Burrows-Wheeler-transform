@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { TextField } from '@mui/material';
 
+import { DEFAULT_IBWT_INPUT } from '../../defaults';
 import { BWTResult } from '../../model/BWT';
 import { getIBWT, getIBWTSteps } from '../../model/IBWT';
 import { isStringAsciiOnly, isStringPositiveInteger } from '../../utils/regexUtils';
@@ -9,12 +10,9 @@ import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
 import IbwtTable from './IbwtTable';
 
-const IBwtRoot = (props: {
-	bwtResult: BWTResult | null;
-	handleSetBwtResult: (newValue: BWTResult | null) => void;
-}) => {
-	const [ibwtInput, setIbwtInput] = useState<string>(props.bwtResult?.bwt ?? '');
-	const [indexInput, setIndexInput] = useState<string>(props.bwtResult?.index.toString() ?? '');
+const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: BWTResult) => void }) => {
+	const [ibwtInput, setIbwtInput] = useState<string>(props.bwtResult.bwt);
+	const [indexInput, setIndexInput] = useState<string>(props.bwtResult.index.toString());
 
 	const [indexError, setIndexError] = useState<string>('');
 	const [bwtInputError, setBwtInputError] = useState<string>('');
@@ -109,7 +107,7 @@ const IBwtRoot = (props: {
 
 	useEffect(() => {
 		return () => {
-			props.handleSetBwtResult(null);
+			props.handleSetBwtResult(DEFAULT_IBWT_INPUT);
 		};
 	}, []);
 

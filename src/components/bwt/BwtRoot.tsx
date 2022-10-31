@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, TextField } from '@mui/material';
 
+import { DEFAULT_BWT_INPUT } from '../../defaults';
 import { BWTResult, getBWT, getRotations, getSortedRotations } from '../../model/BWT';
 import { Rotation } from '../../model/Rotation';
 import { isStringAsciiOnly } from '../../utils/regexUtils';
@@ -11,9 +12,9 @@ import BwtRotationsTable from './BwtRotationsTable';
 
 const BwtRoot = (props: {
 	handleTabChange: (tabIndex: number) => void;
-	handleSetBwtResult: (newValue: BWTResult | null) => void;
+	handleSetBwtResult: (newValue: BWTResult) => void;
 }) => {
-	const [bwtInput, setBwtInput] = useState<string>('');
+	const [bwtInput, setBwtInput] = useState<string>(DEFAULT_BWT_INPUT);
 
 	const [bwtInputError, setBwtInputError] = useState<string>('');
 

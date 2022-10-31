@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
 import { BWTResult, getBWT, getRotations, getSortedRotations } from '../../model/BWT';
 import { Rotation } from '../../model/Rotation';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
 import BwtRotationsTable from './BwtRotationsTable';
+import { CheckCircleRounded } from '@mui/icons-material';
 
 const BwtRoot = () => {
 	const [bwtInput, setBwtInput] = useState<string>('');
@@ -96,6 +97,13 @@ const BwtRoot = () => {
 					confirm={{ handler: handleConfirm, disabled: bwtInput.length === 0 }}
 					clear={{ handler: handleClear, disabled: bwtInput.length === 0 }}
 				/>
+				{currentStep == steps.length - 1 && (
+					<div>
+						<Button variant="outlined">
+							<p>Invert BWT</p>
+						</Button>
+					</div>
+				)}
 			</div>
 			{isInStepMode && (
 				<StepDisplay

@@ -3,13 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 
 import { BWTResult } from '../../model/BWT';
-import { getIBWT, getIBWTComponents } from '../../model/IBWT';
-import { IBWTComponents } from '../../model/IBWTComponents';
+import { getIBWT, getIBWTSteps } from '../../model/IBWT';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
+import IbwtTable from './IbwtTable';
 
-const IBwtRoot = (props: { bwtResult: BWTResult | null }) => {
-	const [ibwtInput, setBwtInput] = useState<string>(props.bwtResult?.bwt ?? '');
+const IBwtRoot = (props: {
+	bwtResult: BWTResult | null;
+	handleSetBwtResult: (newValue: BWTResult | null) => void;
+}) => {
+	const [ibwtInput, setIbwtInput] = useState<string>(props.bwtResult?.bwt ?? '');
 	const [indexInput, setIndexInput] = useState<string>(props.bwtResult?.index.toString() ?? '');
 
 	const [indexError, setIndexError] = useState<string>('');
@@ -20,11 +23,11 @@ const IBwtRoot = (props: { bwtResult: BWTResult | null }) => {
 	const [currentStep, setCurrentStep] = useState<number>(0);
 	const [steps, setSteps] = useState<string[]>([]);
 
-	const [ibwtComponents, setIBwtComponents] = useState<IBWTComponents>(new IBWTComponents([], []));
+	const [ibwtArrays, setIbwtArrays] = useState<string[][]>([]);
 	const [ibwtOutput, setIBwtOutput] = useState<string>('');
 
 	const handleInputTextChange = (value: string) => {
-		setBwtInput(value);
+		setIbwtInput(value);
 		resetSteps();
 	};
 
@@ -35,6 +38,7 @@ const IBwtRoot = (props: { bwtResult: BWTResult | null }) => {
 
 	const resetSteps = () => {
 		if (isInStepMode) {
+			setIbwtArrays([]);
 			setIsInStepMode(false);
 			setCurrentStep(0);
 		}
@@ -57,13 +61,27 @@ const IBwtRoot = (props: { bwtResult: BWTResult | null }) => {
 	};
 
 	const handleClear = () => {
-		setBwtInput('');
+		setIbwtInput('');
 		setIndexInput('');
 	};
 
 	const handleConfirm = () => {
-		const ibwtComponents = getIBWTComponents(ibwtInput);
-		setIBwtComponents(ibwtComponents);
+		const newIbwtArrays = getIBWTSteps(ibwtInput);
+		const newIbwtOutput = getIBWT(newIbwtArrays, index);
+
+		const newSteps: string[] = [];
+		newSteps.push('Create a nXn table, where n is the length of the BWT result.');
+		for (let i = 0; i * 2 < newIbwtArrays.length; i++) {
+			newSteps.push('Add the BWT result to the last free column of the table.');
+			newSteps.push('Sort with the lexicographical order all the rows in the table.');
+		}
+		// eslint-disable-next-line quotes
+		newSteps.push("When the table is filled, the original string is in the index'th row (counting from 0).");
+		newSteps.push('You have found the IBWT of the input string!');
+
+		setIbwtArrays(newIbwtArrays);
+		setIBwtOutput(newIbwtOutput);
+		setSteps(newSteps);
 		setIsInStepMode(true);
 	};
 
@@ -84,39 +102,35 @@ const IBwtRoot = (props: { bwtResult: BWTResult | null }) => {
 	}, [indexInput, ibwtInput]);
 
 	useEffect(() => {
-		const ibwtOutput = getIBWT(ibwtComponents.sorted.at(-1) ?? [], index);
-		setIBwtOutput(ibwtOutput ?? '');
+		return () => {
+			props.handleSetBwtResult(null);
+		};
+	}, []);
 
-		const newSteps: string[] = [];
-		newSteps.push('Take the bwt result and put it in a column');
-		for (let i = 1; i < ibwtComponents.sorted.length; i++) {
-			newSteps.push('Sort rows lexicographically');
-			newSteps.push('Append original column to the left of sorted result');
-		}
-		newSteps.push(
-			'After number of sorts equal to length of ibwt input the result is in the sorted table at row with index equal to input index'
-		);
-		setSteps(newSteps);
-	}, [ibwtComponents]);
+	let ibwtArrayToDisplay: string[] = [];
+	if (currentStep === 0) ibwtArrayToDisplay = Array(ibwtInput.length).fill('');
+	else if (currentStep - 1 < ibwtArrays.length) ibwtArrayToDisplay = ibwtArrays[currentStep - 1]!;
+	else ibwtArrayToDisplay = ibwtArrays.at(-1)!;
 
 	return (
 		<div className="transform-container">
 			<div className="transform-header">
-				<div>
+				<div style={{ marginRight: '.5rem' }}>
 					<TextField
 						className="transform-input"
 						onChange={(e) => handleInputTextChange(e.target.value)}
 						value={ibwtInput}
 						label="BWT result"
 					/>
-					<TextField
-						onChange={(e) => handleInputIndex(e.target.value)}
-						value={indexInput}
-						label="BWT index"
-						error={indexError !== ''}
-						helperText={indexError}
-					/>
 				</div>
+				<TextField
+					onChange={(e) => handleInputIndex(e.target.value)}
+					value={indexInput}
+					label="BWT index"
+					error={indexError !== ''}
+					helperText={indexError}
+				/>
+
 				<StepNavigation
 					isInStepMode={isInStepMode}
 					toStart={{ handler: handleToStart, disabled: currentStep === 0 }}
@@ -129,7 +143,7 @@ const IBwtRoot = (props: { bwtResult: BWTResult | null }) => {
 					}}
 					clear={{
 						handler: handleClear,
-						disabled: ibwtInput.length === 0 || indexInput.length === 0 || indexError !== '',
+						disabled: ibwtInput.length === 0 && indexInput.length === 0,
 					}}
 				/>
 			</div>
@@ -140,27 +154,18 @@ const IBwtRoot = (props: { bwtResult: BWTResult | null }) => {
 					currentStep={currentStep}
 					State={
 						<>
-							{/* <div style={{ marginBottom: '1rem' }}>
-									<BwtRotationsTable
-										currentStep={currentStep}
-										rotations={rotations}
-										markLast={false}
-										markOriginal={false}
-									/>
-								</div>
-								{currentStep > rotations.length && (
-									<div style={{ marginBottom: '1rem' }}>
-										<BwtRotationsTable
-											currentStep={currentStep}
-											rotations={sortedRotations}
-											markLast={currentStep > rotations.length + 1}
-											markOriginal={currentStep > rotations.length + 2}
-										/>
-									</div>
-								)} */}
+							<div style={{ marginBottom: '1rem' }}>
+								<IbwtTable
+									ibwtRows={ibwtArrayToDisplay}
+									bwtIndex={index}
+									markOriginal={currentStep >= steps.length - 2}
+								/>
+							</div>
 							{currentStep === steps.length - 1 && (
 								<div>
-									<p>Result string: {ibwtOutput}</p>
+									<p>
+										Result string: <strong>{ibwtOutput}</strong>
+									</p>
 								</div>
 							)}
 						</>

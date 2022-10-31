@@ -87,13 +87,12 @@ const BwtRoot = (props: {
 	return (
 		<div className="transform-container">
 			<div className="transform-header">
-				<div>
-					<TextField
-						onChange={(e) => handleInputChange(e.target.value)}
-						value={bwtInput}
-						label="Text to transform"
-					/>
-				</div>
+				<TextField
+					onChange={(e) => handleInputChange(e.target.value)}
+					value={bwtInput}
+					label="Text to transform"
+				/>
+
 				<StepNavigation
 					isInStepMode={isInStepMode}
 					toStart={{ handler: handleToStart, disabled: currentStep === 0 }}
@@ -103,15 +102,6 @@ const BwtRoot = (props: {
 					confirm={{ handler: handleConfirm, disabled: bwtInput.length === 0 }}
 					clear={{ handler: handleClear, disabled: bwtInput.length === 0 }}
 				/>
-				<div>
-					<Button
-						variant="outlined"
-						disabled={currentStep != steps.length - 1}
-						onClick={() => handleInvertBWT()}
-					>
-						<p>Invert BWT</p>
-					</Button>
-				</div>
 			</div>
 			{isInStepMode && (
 				<StepDisplay
@@ -138,10 +128,25 @@ const BwtRoot = (props: {
 								</div>
 							)}
 							{currentStep === steps.length - 1 && (
-								<div>
-									<p>Result string: {bwtOutput.bwt}</p>
-									<p>Result index: {bwtOutput.index}</p>
-								</div>
+								<>
+									<div>
+										<p>
+											Result string: <strong>{bwtOutput.bwt}</strong>
+										</p>
+										<p>
+											Result index: <strong>{bwtOutput.index}</strong>
+										</p>
+									</div>
+									<div style={{ display: 'flex', justifyContent: 'center' }}>
+										<Button
+											variant="outlined"
+											disabled={currentStep != steps.length - 1}
+											onClick={() => handleInvertBWT()}
+										>
+											<p>Invert BWT</p>
+										</Button>
+									</div>
+								</>
 							)}
 						</>
 					}

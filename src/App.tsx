@@ -48,7 +48,7 @@ function App() {
 				{tabIndex === 1 && (
 					<BwtRoot handleTabChange={handleTabChange} handleSetBwtResult={handleSetBwtResult} />
 				)}
-				{tabIndex === 2 && <IBwtRoot bwtResult={bwtResult} />}
+				{tabIndex === 2 && <IBwtRoot bwtResult={bwtResult} handleSetBwtResult={handleSetBwtResult} />}
 			</main>
 		</div>
 	);

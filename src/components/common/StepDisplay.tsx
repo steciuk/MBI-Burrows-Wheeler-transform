@@ -12,15 +12,14 @@ const StepDisplay = (props: { steps: string[]; currentStep: number; State: JSX.E
 		<div
 			style={{
 				display: 'flex',
-				height: '700px',
 				width: '100%',
 				flexWrap: 'wrap',
 				paddingTop: '.5rem',
 				gap: '.5rem',
 			}}
 		>
-			<div style={{ ...stepDisplayBlockStyles, flexGrow: '2', minWidth: '300px' }}>
-				<ol>
+			<div style={{ ...stepDisplayBlockStyles, flexGrow: '2', minWidth: '300px', overflowY: 'auto' }}>
+				<ol style={{ listStylePosition: 'inside' }}>
 					{stepsToDisplay.map((step, index) => (
 						<li key={index}>{step}</li>
 					))}

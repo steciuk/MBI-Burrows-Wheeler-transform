@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 
 import StepNavigation from '../common/StepNavigation';
-import { getIBWTComponents } from '../../model/IBWT';
+import { getIBWT, getIBWTComponents } from '../../model/IBWT';
 import { IBWTComponents } from '../../model/IBWTComponents';
+import StepDisplay from '../common/StepDisplay';
 
 const IBwtRoot = () => {
 
@@ -16,6 +17,7 @@ const IBwtRoot = () => {
 	const [steps, setSteps] = useState<string[]>([]);
 
 	const [ibwtComponents, setIBwtComponents] = useState<IBWTComponents>(new IBWTComponents([], []));
+	const [ibwtOutput, setIBwtOutput] = useState<string>('');
 
 	const handleInputTextChange = (value: string) => {
 		setBwtInput(value);
@@ -68,6 +70,22 @@ const IBwtRoot = () => {
 		setIsInStepMode(true);
 	};
 
+	useEffect(() => {
+		const ibwtOutput = getIBWT(ibwtComponents.sorted.at(index ?? 0) ?? [], index ?? 0);
+		setIBwtOutput(ibwtOutput ?? '');
+
+		const newSteps: string[] = [];
+		newSteps.push('Take the bwt result and put it in a column');
+		for (let i = 1; i < ibwtComponents.sorted.length; i++) {
+			newSteps.push('Sort rows lexicographically');
+			newSteps.push('Append original column to the left of sorted result');
+		}
+		newSteps.push(
+			'After number of sorts equal to length of ibwt input the result is in the sorted table at row with index equal to input index'
+		);
+		setSteps(newSteps);
+	});
+
 	return (
 		<div className="transform-container">
 			<div className="transform-header">
@@ -96,6 +114,41 @@ const IBwtRoot = () => {
 					confirm={{ handler: handleConfirm, disabled: ibwtInput.length === 0 || index == undefined }}
 					clear={{ handler: handleClear, disabled: ibwtInput.length === 0 || index == undefined }}
 				/>
+			</div>
+			<div>
+				{isInStepMode && (
+					<StepDisplay
+						steps={steps}
+						currentStep={currentStep}
+						State={
+							<>
+								{/* <div style={{ marginBottom: '1rem' }}>
+									<BwtRotationsTable
+										currentStep={currentStep}
+										rotations={rotations}
+										markLast={false}
+										markOriginal={false}
+									/>
+								</div>
+								{currentStep > rotations.length && (
+									<div style={{ marginBottom: '1rem' }}>
+										<BwtRotationsTable
+											currentStep={currentStep}
+											rotations={sortedRotations}
+											markLast={currentStep > rotations.length + 1}
+											markOriginal={currentStep > rotations.length + 2}
+										/>
+									</div>
+								)} */}
+								{currentStep === steps.length - 1 && (
+									<div>
+										<p>Result string: {ibwtOutput}</p>
+									</div>
+								)}
+							</>
+						}
+					/>
+				)}
 			</div>
 		</div>
 	);

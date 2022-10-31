@@ -1,4 +1,4 @@
-import { IBWTComponents } from './IBWTComponents'
+import { IBWTComponents } from './IBWTComponents';
 
 export function getIBWTComponents(bwtString: string): IBWTComponents{
 	

@@ -8,6 +8,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 
 import AboutBwtRoot from './components/about-bwt/AboutBwtRoot';
 import BwtRoot from './components/bwt/BwtRoot';
+import IBwtRoot from './components/ibwt/IBwtRoot';
 
 function App() {
 	const [tabIndex, setTabIndex] = useState<number>(0);
@@ -39,6 +40,7 @@ function App() {
 			<main>
 				{tabIndex === 0 && <AboutBwtRoot />}
 				{tabIndex === 1 && <BwtRoot />}
+				{tabIndex === 2 && <IBwtRoot />}
 			</main>
 		</div>
 	);

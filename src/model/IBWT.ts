@@ -1,17 +1,23 @@
-export function getRotations(bwtString: string, orgFirstCharIndex: number): string | undefined {
+import { IBWTComponents } from './IBWTComponents'
+
+export function getIBWTComponents(bwtString: string): IBWTComponents{
 	
-	const rotations = bwtString.split('');
+	const recreated = bwtString.split('');
+	const sortedArray: string[][] = [];
+	const recreatedArray: string[][] = [];
+	recreatedArray.push(bwtString.split(''));
 
-	for(let i = 0; i < bwtString.length - 1; i++) {
-		const temp = rotations.slice();
-		temp.sort();
-		for(let j = 0; j < bwtString.length; j++) {
-			const a = temp.at(j) ?? '';
-			rotations[j] += a.at(i);
-		}
-		console.log('Before rot: ' + rotations);
-		console.log('Temp: ' + temp);
-	}
+	[...Array(bwtString.length)].forEach((_) => {
+		const sorted = recreated.slice().sort();
+		recreated.forEach((_, index, arr) => arr[index] += sorted.at(index)?.slice(-1));
+		recreatedArray.push(recreated.slice());
+		sortedArray.push(sorted);
+	});
+	recreatedArray.pop();
 
-	return rotations.at(orgFirstCharIndex - 1);
+	return new IBWTComponents(recreatedArray, sortedArray);
+}
+
+export function getIBWT(sortedRecreated: string[], orgFirstCharIndex: number): string | undefined {
+	return sortedRecreated.at(orgFirstCharIndex);
 }

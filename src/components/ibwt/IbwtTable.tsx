@@ -21,7 +21,7 @@ const IbwtTable = (props: {
 	if (addingStep > addedIbwtElements.length - 1) addingStep = addedIbwtElements.length - 1;
 
 	let sortingStep = Math.ceil((currentStep - 2) / 2);
-	const sortingDone = sortingStep === sortedIbwtElements.length;
+	const sortingDone = sortingStep >= sortedIbwtElements.length;
 	if (sortingStep > sortedIbwtElements.length - 1) sortingStep = sortedIbwtElements.length - 1;
 
 	const showSortingTable = currentStep % 2 === 0 || sortingDone;

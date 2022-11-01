@@ -4,7 +4,7 @@ import { TextField } from '@mui/material';
 
 import { DEFAULT_IBWT_INPUT } from '../../defaults';
 import { BWTResult } from '../../model/BWT';
-import { getIBWT, getIBWTSteps } from '../../model/IBWT';
+import { getIBWT, getIbwtElements, IbwtElement } from '../../model/IBWT';
 import { isStringAsciiOnly, isStringPositiveInteger } from '../../utils/regexUtils';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
@@ -23,7 +23,9 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 	const [currentStep, setCurrentStep] = useState<number>(0);
 	const [steps, setSteps] = useState<string[]>([]);
 
-	const [ibwtArrays, setIbwtArrays] = useState<string[][]>([]);
+	// const [ibwtArrays, setIbwtArrays] = useState<string[][]>([]);
+	const [addedIbwtElements, setAddedIbwtElements] = useState<IbwtElement[][]>([]);
+	const [sortedIbwtElements, setSortedIbwtElements] = useState<IbwtElement[][]>([]);
 	const [ibwtOutput, setIBwtOutput] = useState<string>('');
 
 	const handleInputTextChange = (value: string) => {
@@ -38,7 +40,8 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 
 	const resetSteps = () => {
 		if (isInStepMode) {
-			setIbwtArrays([]);
+			setAddedIbwtElements([]);
+			setSortedIbwtElements([]);
 			setIsInStepMode(false);
 			setCurrentStep(0);
 		}
@@ -66,12 +69,13 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 	};
 
 	const handleConfirm = () => {
-		const newIbwtArrays = getIBWTSteps(ibwtInput);
-		const newIbwtOutput = getIBWT(newIbwtArrays, index);
+		const [newAddedIbwtElements, newSortedIbwtElements] = getIbwtElements(ibwtInput);
+
+		const newIbwtOutput = getIBWT(newSortedIbwtElements, index);
 
 		const newSteps: string[] = [];
 		newSteps.push('Create a nXn table, where n is the length of the BWT result.');
-		for (let i = 0; i * 2 < newIbwtArrays.length; i++) {
+		for (let i = 0; i < newSortedIbwtElements.length; i++) {
 			newSteps.push('Add the BWT result to the last free column of the table.');
 			newSteps.push('Sort with the lexicographical order all the rows in the table.');
 		}
@@ -79,7 +83,9 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 		newSteps.push("When the table is filled, the original string is in the index'th row (counting from 0).");
 		newSteps.push('You have found the IBWT of the input string!');
 
-		setIbwtArrays(newIbwtArrays);
+		// setIbwtArrays(newIbwtArrays);
+		setAddedIbwtElements(newAddedIbwtElements);
+		setSortedIbwtElements(newSortedIbwtElements);
 		setIBwtOutput(newIbwtOutput);
 		setSteps(newSteps);
 		setIsInStepMode(true);
@@ -111,10 +117,10 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 		};
 	}, []);
 
-	let ibwtArrayToDisplay: string[] = [];
-	if (currentStep === 0) ibwtArrayToDisplay = Array(ibwtInput.length).fill('');
-	else if (currentStep - 1 < ibwtArrays.length) ibwtArrayToDisplay = ibwtArrays[currentStep - 1]!;
-	else ibwtArrayToDisplay = ibwtArrays.at(-1)!;
+	// let ibwtArrayToDisplay: string[] = [];
+	// if (currentStep === 0) ibwtArrayToDisplay = Array(ibwtInput.length).fill('');
+	// else if (currentStep - 1 < ibwtArrays.length) ibwtArrayToDisplay = ibwtArrays[currentStep - 1]!;
+	// else ibwtArrayToDisplay = ibwtArrays.at(-1)!;
 
 	return (
 		<div className="transform-container">
@@ -163,7 +169,9 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 						<>
 							<div style={{ marginBottom: '1rem' }}>
 								<IbwtTable
-									ibwtRows={ibwtArrayToDisplay}
+									currentStep={currentStep}
+									addedIbwtElements={addedIbwtElements}
+									sortedIbwtElements={sortedIbwtElements}
 									bwtIndex={index}
 									markOriginal={currentStep >= steps.length - 2}
 								/>

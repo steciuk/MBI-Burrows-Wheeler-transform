@@ -16,3 +16,15 @@ table {
 table.mark-last-row td:nth-last-child(1) {
 	background-color: lightcoral;
 }
+
+table.sorting tr {
+	animation-name: sorting;
+	animation-duration: 0.7s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes sorting {
+	100% {
+		top: 0;
+	}
+}

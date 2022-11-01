@@ -1,5 +1,5 @@
-export function getIBWT(sortedRecreated: string[][], bwtIndex: number): string {
-	return sortedRecreated.at(-1)?.[bwtIndex] ?? '';
+export function getIBWT(sortedRecreated: IbwtElement[][], bwtIndex: number): string {
+	return sortedRecreated.at(-1)?.[bwtIndex]?.text ?? '';
 }
 
 export function getIBWTSteps(bwtString: string): string[][] {
@@ -19,4 +19,43 @@ export function getIBWTSteps(bwtString: string): string[][] {
 	steps.push(previous);
 
 	return steps;
+}
+
+export function getIbwtElements(bwtOutput: string): [added: IbwtElement[][], sorted: IbwtElement[][]] {
+	const added: IbwtElement[][] = [];
+	const sorted: IbwtElement[][] = [];
+
+	const characters: string[] = bwtOutput.split('');
+
+	added[0] = characters.map((character: string, i: number) => new IbwtElement(i, character));
+	for (let i = 0; i < bwtOutput.length - 1; i++) {
+		sorted.push(getSortedIbwtElements(added[i]!));
+		added.push(
+			sorted[i]!.map((element: IbwtElement, i: number) => new IbwtElement(i, characters[i] + element.text))
+		);
+	}
+
+	sorted.push(getSortedIbwtElements(added.at(-1)!));
+
+	return [added, sorted];
+}
+
+function getSortedIbwtElements(ibwtElements: IbwtElement[]): IbwtElement[] {
+	const result = [...ibwtElements];
+
+	result.sort((a, b) => {
+		if (a.text < b.text) {
+			return -1;
+		}
+		if (a.text > b.text) {
+			return 1;
+		}
+		return 0;
+	});
+
+	return result;
+}
+
+export class IbwtElement {
+	constructor(public readonly id: number, public readonly text: string) {}
 }

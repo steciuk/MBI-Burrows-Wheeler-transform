@@ -173,7 +173,6 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 									addedIbwtElements={addedIbwtElements}
 									sortedIbwtElements={sortedIbwtElements}
 									bwtIndex={index}
-									markOriginal={currentStep >= steps.length - 2}
 								/>
 							</div>
 							{currentStep === steps.length - 1 && (

@@ -7,9 +7,8 @@ const IbwtTable = (props: {
 	addedIbwtElements: IbwtElement[][];
 	sortedIbwtElements: IbwtElement[][];
 	bwtIndex: number;
-	markOriginal: boolean;
 }) => {
-	const { currentStep, addedIbwtElements, sortedIbwtElements, bwtIndex, markOriginal } = props;
+	const { currentStep, addedIbwtElements, sortedIbwtElements, bwtIndex } = props;
 
 	const previousStepRef = useRef<number>(0);
 

@@ -104,26 +104,6 @@ const IbwtTable = (props: {
 			</tbody>
 		</table>
 	);
-
-	// return (
-	// 	<table>
-	// 		<tbody>
-	// 			{ibwtRows.map((row, rowNum) => (
-	// 				<tr
-	// 					key={rowNum}
-	// 					style={{ backgroundColor: markOriginal && rowNum === bwtIndex ? 'lightcoral' : '' }}
-	// 				>
-	// 					{[...Array(ibwtRows.length - row.length)].map((_, colNum) => (
-	// 						<td key={colNum}> </td>
-	// 					))}
-	// 					{row.split('').map((symbol, colNum) => (
-	// 						<td key={colNum}>{symbol}</td>
-	// 					))}
-	// 				</tr>
-	// 			))}
-	// 		</tbody>
-	// 	</table>
-	// );
 };
 
 export default IbwtTable;

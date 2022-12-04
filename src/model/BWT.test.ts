@@ -23,8 +23,8 @@ describe(getRotations.name, () => {
 });
 
 describe(getBWT.name, () => {
-	test('of empty array should return empty string and null index', () => {
-		expect(getBWT([])).toEqual({ bwt: '', index: null });
+	test('of empty array should return empty string and 0 index', () => {
+		expect(getBWT([])).toEqual({ bwt: '', index: 0 });
 	});
 
 	test('of single element array should return proper values', () => {

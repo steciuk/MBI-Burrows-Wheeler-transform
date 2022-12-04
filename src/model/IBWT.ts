@@ -40,7 +40,7 @@ export function getIbwtElements(bwtOutput: string): [added: IbwtElement[][], sor
 	return [added, sorted];
 }
 
-function getSortedIbwtElements(ibwtElements: IbwtElement[]): IbwtElement[] {
+export function getSortedIbwtElements(ibwtElements: IbwtElement[]): IbwtElement[] {
 	const result = [...ibwtElements];
 
 	result.sort((a, b) => {

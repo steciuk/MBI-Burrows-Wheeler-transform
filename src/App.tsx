@@ -9,6 +9,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 import AboutBwtRoot from './components/about-bwt/AboutBwtRoot';
 import BwtRoot from './components/bwt/BwtRoot';
 import IBwtRoot from './components/ibwt/IBwtRoot';
+import InfoRoot from './components/info/InfoRoot';
 import { DEFAULT_IBWT_INPUT } from './defaults';
 import { BWTResult } from './model/BWT';
 
@@ -50,6 +51,7 @@ function App() {
 					<BwtRoot handleTabChange={handleTabChange} handleSetBwtResult={handleSetBwtResult} />
 				)}
 				{tabIndex === 2 && <IBwtRoot bwtResult={bwtResult} handleSetBwtResult={handleSetBwtResult} />}
+				{tabIndex === 3 && <InfoRoot />}
 			</main>
 		</div>
 	);

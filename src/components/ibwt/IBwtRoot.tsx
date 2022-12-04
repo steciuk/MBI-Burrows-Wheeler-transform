@@ -4,7 +4,8 @@ import { TextField } from '@mui/material';
 
 import { DEFAULT_IBWT_INPUT } from '../../defaults';
 import { BWTResult } from '../../model/BWT';
-import { getIBWT, getIbwtElements, IbwtElement } from '../../model/IBWT';
+import { getIBWT, getIbwtElements } from '../../model/IBWT';
+import { Step } from '../../model/Step';
 import { isStringAsciiOnly, isStringPositiveInteger } from '../../utils/regexUtils';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
@@ -24,8 +25,8 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 	const [steps, setSteps] = useState<string[]>([]);
 
 	// const [ibwtArrays, setIbwtArrays] = useState<string[][]>([]);
-	const [addedIbwtElements, setAddedIbwtElements] = useState<IbwtElement[][]>([]);
-	const [sortedIbwtElements, setSortedIbwtElements] = useState<IbwtElement[][]>([]);
+	const [addedIbwtElements, setAddedIbwtElements] = useState<Step[][]>([]);
+	const [sortedIbwtElements, setSortedIbwtElements] = useState<Step[][]>([]);
 	const [ibwtOutput, setIBwtOutput] = useState<string>('');
 
 	const handleInputTextChange = (value: string) => {

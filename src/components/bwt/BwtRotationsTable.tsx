@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Rotation } from '../../model/Rotation';
+import { Step } from '../../model/Step';
 
 const BwtRotationsTable = (props: {
 	currentStep: number;
-	rotations: Rotation[];
+	rotations: Step[];
 	markLast: boolean;
 	markOriginal: boolean;
 }) => {

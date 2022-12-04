@@ -1,4 +1,6 @@
-export function getIBWT(sortedRecreated: IbwtElement[][], bwtIndex: number): string {
+import { Step, sort } from './Step';
+
+export function getIBWT(sortedRecreated: Step[][], bwtIndex: number): string {
 	return sortedRecreated.at(-1)?.[bwtIndex]?.text ?? '';
 }
 
@@ -21,41 +23,22 @@ export function getIBWTSteps(bwtString: string): string[][] {
 	return steps;
 }
 
-export function getIbwtElements(bwtOutput: string): [added: IbwtElement[][], sorted: IbwtElement[][]] {
-	const added: IbwtElement[][] = [];
-	const sorted: IbwtElement[][] = [];
+export function getIbwtElements(bwtOutput: string): [added: Step[][], sorted: Step[][]] {
+	const added: Step[][] = [];
+	const sorted: Step[][] = [];
 
 	const characters: string[] = bwtOutput.split('');
 
-	added[0] = characters.map((character: string, i: number) => new IbwtElement(i, character));
+	added[0] = characters.map((character: string, i: number) => new Step(i, character));
 	for (let i = 0; i < bwtOutput.length - 1; i++) {
-		sorted.push(getSortedIbwtElements(added[i]!));
+		sorted.push(sort(added[i]!));
 		added.push(
-			sorted[i]!.map((element: IbwtElement, i: number) => new IbwtElement(i, characters[i] + element.text))
+			sorted[i]!.map((element: Step, i: number) => new Step(i, characters[i] + element.text))
 		);
 	}
 
-	sorted.push(getSortedIbwtElements(added.at(-1)!));
+	sorted.push(sort(added.at(-1)!));
 
 	return [added, sorted];
 }
 
-export function getSortedIbwtElements(ibwtElements: IbwtElement[]): IbwtElement[] {
-	const result = [...ibwtElements];
-
-	result.sort((a, b) => {
-		if (a.text < b.text) {
-			return -1;
-		}
-		if (a.text > b.text) {
-			return 1;
-		}
-		return 0;
-	});
-
-	return result;
-}
-
-export class IbwtElement {
-	constructor(public readonly id: number, public readonly text: string) {}
-}

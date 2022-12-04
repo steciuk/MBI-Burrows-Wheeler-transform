@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { IbwtElement } from '../../model/IBWT';
+import { Step } from '../../model/Step';
 
 const IbwtTable = (props: {
 	currentStep: number;
-	addedIbwtElements: IbwtElement[][];
-	sortedIbwtElements: IbwtElement[][];
+	addedIbwtElements: Step[][];
+	sortedIbwtElements: Step[][];
 	bwtIndex: number;
 }) => {
 	const { currentStep, addedIbwtElements, sortedIbwtElements, bwtIndex } = props;

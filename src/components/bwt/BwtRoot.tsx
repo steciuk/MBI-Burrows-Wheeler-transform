@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
 import { DEFAULT_BWT_INPUT } from '../../defaults';
-import { BWTResult, getBWT, getRotations, getSortedRotations } from '../../model/BWT';
-import { Rotation } from '../../model/Rotation';
+import { BWTResult, getBWT, getRotations } from '../../model/BWT';
+import { Step, sort } from '../../model/Step';
 import { isStringAsciiOnly } from '../../utils/regexUtils';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
@@ -22,8 +22,8 @@ const BwtRoot = (props: {
 	const [currentStep, setCurrentStep] = useState<number>(0);
 	const [steps, setSteps] = useState<string[]>([]);
 
-	const [rotations, setRotations] = useState<Rotation[]>([]);
-	const [sortedRotations, setSortedRotations] = useState<Rotation[]>([]);
+	const [rotations, setRotations] = useState<Step[]>([]);
+	const [sortedRotations, setSortedRotations] = useState<Step[]>([]);
 	const [bwtOutput, setBwtOutput] = useState<BWTResult>({ bwt: '', index: 0 });
 
 	const handleInputChange = (value: string) => {
@@ -67,7 +67,7 @@ const BwtRoot = (props: {
 	};
 
 	useEffect(() => {
-		const newSortedRotations = getSortedRotations(rotations);
+		const newSortedRotations = sort(rotations);
 		const newBwtOutput = getBWT(newSortedRotations);
 		setSortedRotations(newSortedRotations);
 		setBwtOutput(newBwtOutput);

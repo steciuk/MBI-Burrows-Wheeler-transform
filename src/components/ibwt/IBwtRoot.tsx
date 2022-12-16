@@ -107,7 +107,7 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 			setIndexError('Index must be a positive integer');
 		}
 
-		if (ibwtInput.length > 30) setBwtInputError('Input must be less than 30 characters');
+		if (ibwtInput.length >= 30) setBwtInputError('Input must be less than 30 characters');
 		else if (!isStringAsciiOnly(ibwtInput)) setBwtInputError('Input must be ASCII only');
 		else setBwtInputError('');
 	}, [indexInput, ibwtInput]);

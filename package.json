@@ -9,6 +9,7 @@
 		"eject": "react-scripts eject",
 		"main-build": "npx tsc -p ./tsconfig.node.json"
 	},
+	"homepage": "./",
 	"eslintConfig": {
 		"extends": [
 			"react-app",

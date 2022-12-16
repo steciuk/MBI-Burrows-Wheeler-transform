@@ -4,7 +4,7 @@ import { Button, TextField } from '@mui/material';
 
 import { DEFAULT_BWT_INPUT } from '../../defaults';
 import { BWTResult, getBWT, getRotations } from '../../model/BWT';
-import { Step, sort } from '../../model/Step';
+import { sort, Step } from '../../model/Step';
 import { isStringAsciiOnly } from '../../utils/regexUtils';
 import StepDisplay from '../common/StepDisplay';
 import StepNavigation from '../common/StepNavigation';
@@ -91,7 +91,7 @@ const BwtRoot = (props: {
 	}, [rotations]);
 
 	useEffect(() => {
-		if (bwtInput.length > 30) setBwtInputError('Input must be less than 30 characters');
+		if (bwtInput.length >= 30) setBwtInputError('Input must be less than 30 characters');
 		else if (!isStringAsciiOnly(bwtInput)) setBwtInputError('Input must be ASCII only');
 		else setBwtInputError('');
 	}, [bwtInput]);

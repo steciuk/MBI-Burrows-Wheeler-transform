@@ -118,15 +118,10 @@ const IBwtRoot = (props: { bwtResult: BWTResult; handleSetBwtResult: (newValue: 
 		};
 	}, []);
 
-	// let ibwtArrayToDisplay: string[] = [];
-	// if (currentStep === 0) ibwtArrayToDisplay = Array(ibwtInput.length).fill('');
-	// else if (currentStep - 1 < ibwtArrays.length) ibwtArrayToDisplay = ibwtArrays[currentStep - 1]!;
-	// else ibwtArrayToDisplay = ibwtArrays.at(-1)!;
-
 	return (
 		<div className="transform-container">
 			<div className="transform-header">
-				<div style={{ marginRight: '.5rem' }}>
+				<div style={{ marginRight: '.5rem', marginBottom: '.5rem' }}>
 					<TextField
 						className="transform-input"
 						onChange={(e) => handleInputTextChange(e.target.value)}

@@ -4,11 +4,12 @@
 
 Celem niniejszego projektu było stworzenie aplikacji pozwalającej zrozumieć działanie algorytmu transformaty Burrowsa-Wheelera i procesu do niej odwrotnego. Aplikacja umożliwia wprowadzenie własnych danych i pozwala na śledzenie (krok po kroku) sposobu wykonywania obliczeń.
 
-## Opis algorytmu transformaty Burrowsa-Wheelera
+## Decyzje projektowe
 
-Jest to algorytm w uproszczeniu służący do transformacji danego łańcucha tekstowego w łańcuch składający się z tych samych znaków ale w zmienionej kolejności. Omawiana transformata, pozwala niewielkim kosztem, znacznie zwiększyć efektywność bezstratnej kompresji danych i jest ona z reguły stosowana na samym początku, przed właściwym procesem kompresji. Jest to spowodowane tym, że dla powtarzających się ciągów znaków w łańcuchu, wynik transformaty będzie zawierał kilka miejsc, w których te same znaki będą znajdować się obok siebie, co z kolei pozwala na efektywniejszą kompresję innymi sposobami.
-
-Jedną z najważniejszych cech tej transformaty jest fakt, że może byc ona odwrócona, małymi kosztami obliczeniowymi, oraz małym narzutem pamięciowym (związanym z koniecznością przechowania indeksu, pod którym znajduje się oryginalny tekst w tablicy posortowanych rotacji).
+- Aplikacja powstała z użyciem biblioteki _React_.
+- W projekcie wykorzystany został język _TypeScript_.
+- Testy jednostkowe zostały stworzone z wykorzystaniem biblioteki _Jest_.
+- Aplikacja powstałą mając na uwadze urządzenia mobilne i poprawnie wyświetla się na małych ekranach.
 
 ## Opis działania aplikacji
 
@@ -32,7 +33,7 @@ Pole formularza oraz przyciski odpowiednio reagują na wartość podaną przez u
 | przynajmniej 1 znak nie ASCII i max. 29 znaków |       "Input must be ASCII only"        |         aktywny          |       nieaktywny        |
 | więcej niż 29 znaków                           | "Input must be less than 30 characters" |         aktywny          |       nieaktywny        |
 
-Po zatwierdzeniu wartości, przez użytkownika, wartości pola poprzednie przyciski zastępowane są 4 przyciskami pozwalającymi kolejno na:
+Po zatwierdzeniu wartości wartości pola, przez użytkownika, poprzednie przyciski zastępowane są 4 przyciskami pozwalającymi kolejno na:
 
 - przejście do pierwszego kroku wizualizacji (nieaktywny, gdy obecnym krokiem jest krok pierwszy),
 - przejście do poprzedniego kroku wizualizacji (nieaktywny, gdy obecnym krokiem jest krok pierwszy),
@@ -53,12 +54,12 @@ Po przejściu do tego panelu, widoczne są dwa tekstowe pole formularza, domyśl
 
 Pole formularza oraz przyciski odpowiednio reagują na wartość podaną przez użytkownika:
 
-| Zawartość pola BWT result     |               Błąd w polu               |
-| ----------------------------- | :-------------------------------------: |
-| puste                         |                  brak                   |
-| min. 1 i max. 29 znaków ASCII |                  brak                   |
-| przynajmniej 1 znak nie ASCII |       "Input must be ASCII only"        |
-| więcej niż 29 znaków          | "Input must be less than 30 characters" |
+| Zawartość pola BWT result                      |               Błąd w polu               |
+| ---------------------------------------------- | :-------------------------------------: |
+| puste                                          |                  brak                   |
+| min. 1 i max. 29 znaków ASCII                  |                  brak                   |
+| przynajmniej 1 znak nie ASCII i max. 29 znaków |       "Input must be ASCII only"        |
+| więcej niż 29 znaków                           | "Input must be less than 30 characters" |
 
 | Zawartość pola BWT result                                                               |                    Błąd w polu                    |
 | --------------------------------------------------------------------------------------- | :-----------------------------------------------: |
@@ -75,13 +76,6 @@ Pole formularza oraz przyciski odpowiednio reagują na wartość podaną przez u
 
 Po zatwierdzeniu wartości, panel działa analogicznie do panelu **BWT**.
 
-## Dane techniczne
-
-- Aplikacja powstała z użyciem biblioteki _React_.
-- W projekcie wykorzystany został język _TypeScript_.
-- Testy jednostkowe zostały stworzone z wykorzystaniem biblioteki _Jest_.
-- Aplikacja powstałą mając na uwadze urządzenia mobilne i poprawnie wyświetla się na małych ekranach.
-
 ## Testy jednostkowe i manualne
 
 Testy jednostkowe skupiają się na testowaniu poprawnego działania algorytmu oraz algorytmu odwrotnego. Ich celem jest sprawdzenie czy dla zadanych ciągów wejściowych algorytmu otrzymywany jest oczekiwany rezultat. Wszystkie testy jednostkowe można uruchomić za pomocą komendy:
@@ -92,7 +86,7 @@ npm run test
 
 w głównym katalogu projektu.
 
-W projekcie nie zostały zaimplementowane automatyczne testy interfejsu użytkownika, a także testy end-to-end. Było to spowodowane dość wysokim kosztem ich zaimplementowania i utrzymania, a także tym, że projekt nie jest aż tak skomplikowany, żeby wymagał takowych testów.
+W projekcie nie zostały zaimplementowane automatyczne testy end-to-end. Było to spowodowane dość wysokim kosztem ich zaimplementowania i utrzymania, a także tym, że projekt nie jest aż tak skomplikowany, żeby wymagał takowych testów.
 
 Wszystkie testy end-to-end zostały zatem wykonane przez twórców aplikacji w sposób manualny przy wykorzystaniu serwisu [BrowserStack](https://www.browserstack.com/) do zweryfikowania poprawności działania w różnych przeglądarkach internetowych oraz na różnych urządzeniach i systemach operacyjnych.
 
@@ -103,18 +97,18 @@ Podczas przeprowadzania testów stwierdzono poprawność działania aplikacji n
 - iOS - iPhone 14 - Safari
 - android - Samsung Galaxy S22 - Chrome, Firefox, Samsung Internet
 
-## Dane techniczne projektu
+## Statystyki projektu
+
+| Typ pliku            |        Liczba plików |       Liczba linii kodu |
+| :------------------- | -------------------: | ----------------------: |
+| TypeScript / TSX     |                   21 |                     917 |
+| CSS                  |                    4 |                      64 |
+| HTML                 |                    1 |                      18 |
+| -------------------- | -------------------- | ----------------------- |
+| Łącznie              |                   26 |                     999 |
+
+W powyższych statystykach pominięte zostały pliki konfiguracyjne projektu oraz ta dokumentacja.
 
 - Na projekt poświęcono łącznie około 40h,
 - stworzono 17 testów jednostkowych,
-- pokrycie funkcji testami jednostkowymi wynosi 75%,
-
-Łącznie stworzono: **26 plików** i **1395 linii kodu**.
-
-| Typ pliku        | Liczba plików | Liczba linii kodu |
-| :--------------- | ------------: | ----------------: |
-| TypeScript / TSX |            21 |               917 |
-| CSS              |             4 |                64 |
-| HTML             |             1 |                18 |
-
-W powyższych statystykach pominięte zostały pliki konfiguracyjne oraz ta dokumentacja.
+- pokrycie funkcji testami jednostkowymi wynosi 75%.
